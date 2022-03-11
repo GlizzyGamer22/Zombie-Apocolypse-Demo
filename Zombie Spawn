@@ -1,0 +1,98 @@
+wait(1)
+local holder = Game.Workspace.ZombieSpawners
+local zombie = Game.Lighting.Zombies.Zombie
+
+local kin = holder.KinZombieSpawners:GetChildren()
+local ver = holder.VernalZombieSpawners:GetChildren()
+local har = holder.HarkZombieSpawners:GetChildren()
+local wil = holder.WildZombieSpawners:GetChildren()
+local wid = holder.WilderZombieSpawners:GetChildren()
+local wis = holder.WildestZombieSpawners:GetChildren()
+local kor = holder.KorriZombieSpawners:GetChildren()
+local mas = holder.MasonZombieSpawners:GetChildren()
+local dir = holder.DirkZombieSpawners:GetChildren()
+local olk = holder.OlkeZombieSpawners:GetChildren()
+local yal = holder.YaleZombieSpawners:GetChildren()
+local out = holder.OutpostZombieSpawners:GetChildren()
+
+local draw = 650
+local mindraw = 250
+
+local g = {}
+
+function SpawnZombies(spawners,group,cap)
+	for d = 1, #spawners do
+		if spawners[d].className == "Part" then
+			if spawners[d].Active.Value == 0 and group.Population.Value <= cap then 
+				local spawnable = false
+				for i = 1, #g do
+					if Game.Workspace:findFirstChild(g[i].Name) and g[i].Character then
+						if g[i].Character:findFirstChild("Torso") then
+							local distance = (g[i].Character.Torso.Position - spawners[d].Position).magnitude
+							if distance >= mindraw and distance < draw then
+								spawnable = true
+							elseif distance < mindraw then
+								spawnable = false
+							end
+						end
+					end
+				end
+				if spawnable then
+					for y = 1, 2 do
+						bing = math.random(1,4)
+						if bing <= 1 then
+							local newzombie = zombie:clone()
+							local newt = newzombie:FindFirstChild("Torso")
+							if spawners[d].Name == "CivilianZombieSpawner" then
+								newzombie.Role.Value = "Civilian"
+							elseif spawners[d].Name == "MilitaryZombieSpawner" then
+								newzombie.Role.Value = "Military"
+							elseif spawners[d].Name == "PoliceZombieSpawner" then
+								newzombie.Role.Value = "Police"
+							elseif spawners[d].Name == "ChurchZombieSpawner" then
+								newzombie.Role.Value = "Church"
+							elseif spawners[d].Name == "PrisonZombieSpawner" then
+								newzombie.Role.Value = "Prison"
+							end
+							newzombie:MakeJoints()
+							newzombie.Parent = group
+							newzombie:TranslateBy(spawners[d].Position + Vector3.new(math.random(-12,12), 3, math.random(-12,12)) - zombie.Torso.Position)
+						end
+					end
+					spawners[d].Active.Value = math.random(24,34)
+				end
+			elseif spawners[d].Active.Value > 0 then
+				spawners[d].Active.Value = spawners[d].Active.Value - 1
+			end
+		end
+	end
+end
+
+while true do
+	_G.PlayerList = Game.Players:GetChildren()
+	g = _G.PlayerList
+	wait(1)
+	SpawnZombies(kin,Game.Workspace.Zombies.KinZombies,55)
+	wait(1)
+	SpawnZombies(ver,Game.Workspace.Zombies.VernalZombies,25)
+	wait(1)
+	SpawnZombies(har,Game.Workspace.Zombies.HarkZombies,20)
+	wait(1)
+	SpawnZombies(wil,Game.Workspace.Zombies.WildZombies,30)
+	wait(1)
+	SpawnZombies(kor,Game.Workspace.Zombies.KorriZombies,15)
+	wait(1)
+	SpawnZombies(dir,Game.Workspace.Zombies.DirkZombies,15)
+	wait(1)
+	SpawnZombies(wid,Game.Workspace.Zombies.WilderZombies,25)
+	wait(1)
+	SpawnZombies(olk,Game.Workspace.Zombies.OlkeZombies,15)
+	wait(1)
+	SpawnZombies(mas,Game.Workspace.Zombies.MasonZombies,15)
+	wait(1)
+	SpawnZombies(wis,Game.Workspace.Zombies.WildestZombies,25)
+	wait(1)
+	SpawnZombies(yal,Game.Workspace.Zombies.YaleZombies,15)
+	wait(1)
+	SpawnZombies(out,Game.Workspace.Zombies.OutpostZombies,20)
+end 
