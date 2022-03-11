@@ -1,0 +1,60 @@
+local utility = assert(LoadLibrary("RbxUtility"))
+
+local index = 107
+local store = game:GetService("DataStoreService")
+local news = store:GetDataStore("lobbystuff" .. index)
+local http = game:GetService("HttpService")
+
+local pcount = 0
+local server = game.JobId
+
+function Contains(mesa, thing)
+	for g = 1, #mesa do
+		if mesa[g] == thing then return g end
+	end
+end
+
+news:UpdateAsync("info_" .. game.PlaceId, function(old)
+	local mesa = old
+	table.insert(mesa, server)
+return mesa end)
+
+game.OnClose = function()
+	spawn(function()
+		local success, message
+		repeat
+			success, message = pcall(function()
+				news:UpdateAsync("info_" .. game.PlaceId, function(old)
+					local mesa = old
+					local index = Contains(mesa, server)
+					if index then
+						table.remove(mesa, index)
+					end
+				return mesa end)
+			end)
+			wait(2)
+		until success
+	end)
+	spawn(function()
+		local success, message
+		repeat
+			success, message = pcall(function()
+				news:SetAsync("info_" .. game.PlaceId .. "_" .. string.sub(server,1,10), nil)
+			end)
+			wait(2)
+		until success
+	end)
+end
+
+while true do
+	wait(30)
+	if #game.NetworkServer:GetChildren() ~= pcount then
+		pcount = #game.NetworkServer:GetChildren()
+		local success, message = pcall(function() 
+			news:SetAsync("info_" .. game.PlaceId .. "_" .. string.sub(server,1,10), pcount)
+		end)
+		if not success then
+			print("datastore error - cannot update server info")
+		end
+	end
+end
