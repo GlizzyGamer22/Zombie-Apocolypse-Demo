@@ -1,0 +1,62 @@
+local points = Game:GetService("PointsService")
+local events = Game.Workspace.Remote
+local players = {}
+
+function AddOne(player)
+	for g = 1, #players do
+		if players[g].x == player.userId then
+			local point = players[g].y
+			table.remove(players, g)
+			table.insert(players, Vector2.new(player.userId, point + 3))
+			print("add one " .. player.userId)
+		return end
+	end
+end
+
+function AddTwo(player)
+	for g = 1, #players do
+		if players[g].x == player.userId then
+			local point = players[g].y
+			table.remove(players, g)
+			table.insert(players, Vector2.new(player.userId, point + 6))
+			print("add two " .. player.userId)
+		return end
+	end
+end
+
+function Distribute()
+	for g = 1, #players do
+		if players[g].y > 0 and players[g].y < 750 then
+			points:AwardPoints(players[g].x, players[g].y)
+			print("distributed " .. players[g].y .. " player points to " .. players[g].x)
+		end
+	end
+	for g = 1, #players do
+		local id = players[g].x
+		table.remove(players, g)
+		table.insert(players, g, Vector2.new(id, 0))
+	end
+end
+
+Game.Players.PlayerAdded:connect(function(player)
+	table.insert(players, Vector2.new(player.userId, 0))
+end)
+
+Game.Players.PlayerRemoving:connect(function(player)
+	for g = 1, #players do
+		if players[g].x == player.userId then
+			table.remove(players, g)
+		return end
+	end
+end)
+
+events.AddOne.OnServerEvent:connect(AddOne)
+events.AddTwo.OnServerEvent:connect(AddTwo)
+
+while true do
+	wait(1)
+	if Game.Lighting:GetMinutesAfterMidnight() >= 360 and Game.Lighting:GetMinutesAfterMidnight() <= 370 then
+		Distribute()
+		wait(60)
+	end
+end
