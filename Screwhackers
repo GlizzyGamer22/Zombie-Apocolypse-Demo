@@ -1,0 +1,143 @@
+_G["admins"] = {
+"Vinsone",
+"ZolarKeth",
+"bloody1",
+"matto323",
+"Blueice506",
+"Zealiance",
+"Narroby",
+"WWIIman1",
+"MASTERLUKE755",
+"Repulsive",
+"NumberoneFingers",
+"nubcaiketh9001",
+
+"pasquale614",
+"TheProhibitor",
+"GetEjected",
+"contactrule22",
+
+"12age",
+"PirateJets",
+"Sunstone453",
+"Bertholdt",
+
+"wrongplace",
+"SHADOWRIM",
+"g2u",
+"runewizard1873",
+
+"Harkovy",
+"Veselov",
+"Number418",
+"transformersfan0219",
+
+"isoret",
+"wombat80",
+"iSnipeForLyfe",
+"KingPreacher",
+}
+
+math.randomseed(tick())
+local gmult = Game.Workspace:FindFirstChild("Anchored Objects"):FindFirstChild("Trees/Foliage"):WaitForChild("GM")
+gmult.Value = math.random(1000,9999)
+local changed = Instance.new("IntValue")
+changed.Name = "changed"
+changed.Parent = gmult
+
+function Game.Workspace.Remote.GetPass.OnServerInvoke(player, pass)
+	if pass == "blazinskrubs" then
+		return true
+	end
+end
+
+Game.Players.PlayerAdded:connect(function (player)
+	player.CharacterAdded:connect(function (character)
+		local humanoid = character:WaitForChild("Humanoid")
+		humanoid.Changed:connect(function (prop)
+			if prop == "WalkSpeed" then
+				if (humanoid.WalkSpeed > 25 or humanoid.WalkSpeed < -1) --[[and not player.PlayerGui:FindFirstChild("CommandLine")]] then
+					humanoid.Health = 0
+				end
+			end
+		end)
+		local torso = character:WaitForChild("Torso")
+		repeat wait() until not player.PlayerGui:FindFirstChild("SpawnCover")
+		local last = Vector2.new(torso.Position.x, torso.Position.z)
+		wait(1)
+		local strikes = 0
+		local lastick = 0
+		local nowtick = 1
+		while player and character and humanoid and torso do
+			nowtick = tick()
+			if not player.PlayerGui:FindFirstChild("VehicleHUD") and not humanoid.Sit then
+				if (Vector2.new(torso.Position.x, torso.Position.z) - last).magnitude > 32*(nowtick - lastick) then
+					if not humanoid.Sit and torso.Position.y < 20 and not player.PlayerGui:FindFirstChild("VehicleHUD") then
+						strikes = strikes + 1
+					else
+						strikes = 0
+					end
+				else
+					strikes = 0
+				end
+				last = Vector2.new(torso.Position.x, torso.Position.z)
+				if strikes >= 3 then
+					player:Kick()
+				end
+			else
+				strikes = 0
+			end
+			lastick = nowtick
+			wait(1) 
+		end
+	end)
+end)
+
+game.Workspace.Remote.TrackInvisibility.OnServerEvent:connect(function(player, v3)
+	if player then
+		--[[local decider
+		local players = game.Players:GetChildren()
+		if #players > 1 then
+			repeat
+				decider = players[math.random(1,#players)]
+			until decider ~= player
+			print("using " .. decider.Name .. " to track " .. player.Name .. " position")
+			local ting = game.Workspace.DistributedGameTime
+			--local nv3 = events.TrackInvisiblity:InvokeClient(decider, player)
+			local nv3 = player.Character.Torso.Position
+			if nv3 and (game.Workspace.DistributedGameTime - ting) <= 1 then
+				local dist = (nv3 - v3).magnitude
+				print(player.Name .. " is " .. dist .. " studs off their expected position")
+				if dist > 500 then
+					player:Kick()
+				end
+			end
+		end]]
+		if player.Character.Humanoid.Health > 0 then
+			local nv3 = player.Character.Torso.Position
+			if nv3 then
+				local dist = (nv3 - v3).magnitude
+				if dist > 420 then
+					print(player.Name .. " is invisible; disconnecting player")
+					player:Kick()
+				end
+			end
+		end
+	end
+end)
+
+wait(1)
+local things = Game.Lighting.LootDrops:GetChildren()
+for g = 1, #things do
+	if things[g]:FindFirstChild("ObjectID") then
+		things[g].ObjectID.Value = _G.Obfuscate(_G.Deobfuscate(things[g].ObjectID.Value))
+	end
+end
+local bings = Game.Lighting.Weapons:GetChildren()
+for b = 1, #bings do
+	local stat = bings[b].Stats
+	stat.Damage.Value = _G.Obfuscate(_G.Deobfuscate(stat.Damage.Value))
+	stat.Accuracy.Value = _G.Obfuscate(_G.Deobfuscate(stat.Accuracy.Value))
+	stat.Accuracy.Zoomed.Value = _G.Obfuscate(_G.Deobfuscate(stat.Accuracy.Zoomed.Value))
+	stat.Recoil.Value = _G.Obfuscate(_G.Deobfuscate(stat.Recoil.Value))
+end
