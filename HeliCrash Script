@@ -1,0 +1,293 @@
+wait(1)
+local anch = Game.Workspace:FindFirstChild("Anchored Objects")
+local backpack = Game.Lighting.LootDrops
+local lootstuffs = {}
+
+function SpawnHeliCrash()
+	local position = Vector3.new(math.random(-3000,3000),0.6,math.random(-3000,3000))
+	local collisions = Game.Workspace:FindPartsInRegion3(Region3.new(position - Vector3.new(60,5,60), position + Vector3.new(60,5,60)))
+	for i = 1, #collisions do
+		if not collisions[i]:IsDescendantOf(anch:FindFirstChild("Plates")) and not collisions[i]:IsDescendantOf(anch:FindFirstChild("Trees/Foliage")) then
+			SpawnHeliCrash()
+		return end
+		if collisions[i]:IsDescendantOf(anch:FindFirstChild("Plates"):FindFirstChild("Hills")) then
+			SpawnHeliCrash()
+		return end
+	end
+	local helicrash = Game.ServerStorage.HeliCrash:clone()
+	helicrash:TranslateBy(position - helicrash:findFirstChild("Baseplate").Position)
+	helicrash.Parent = Game.Workspace
+	local fling = math.random(2,4)
+	local ming = 0
+	repeat
+		ming = ming + 1
+		local model = nil
+		local ting = math.random(10,395)
+		if ting >= 10 and ting < 20 then
+			model = backpack:findFirstChild("M4A1"):clone()
+		end
+		if ting >= 20 and ting < 30 then
+			model = backpack:findFirstChild("SCAR-L"):clone()
+		end
+		if ting >= 30 and ting < 40 then
+			model = backpack:findFirstChild("G36K"):clone()
+		end
+		if ting >= 40 and ting < 50 then
+			model = backpack:findFirstChild("AK-47"):clone()
+		end
+		if ting >= 50 and ting < 60 then
+			model = backpack:findFirstChild("M14"):clone()
+		end
+		if ting >= 60 and ting < 70 then
+			model = backpack:findFirstChild("M249"):clone()
+		end
+		if ting >= 70 and ting < 80 then
+			model = backpack:findFirstChild("Mk 48"):clone()
+		end
+		if ting >= 80 and ting < 90 then
+			model = backpack:findFirstChild("PP-19"):clone()
+		end
+		if ting >= 90 and ting < 100 then
+			model = backpack:findFirstChild("CBJ-MS"):clone()
+		end
+		if ting >= 100 and ting < 110 then
+			model = backpack:findFirstChild("MP5"):clone()
+		end
+		if ting >= 110 and ting < 120 then
+			model = backpack:findFirstChild("M9"):clone()
+		end
+		if ting >= 120 and ting < 130 then
+			model = backpack:findFirstChild("USP45"):clone()
+		end
+		if ting >= 130 and ting < 140 then
+			model = backpack:findFirstChild("G18"):clone()
+		end
+		if ting >= 140 and ting < 150 then
+			model = backpack:findFirstChild("TEC-9"):clone()
+		end
+		if ting >= 150 and ting < 155 then
+			model = backpack:findFirstChild("MilitaryPackGrime"):clone()
+		end
+		if ting >= 155 and ting < 160 then
+			model = backpack:findFirstChild("MilitaryPackGreen"):clone()
+		end
+		if ting >= 160 and ting < 165 then
+			model = backpack:findFirstChild("MilitaryPackGrey"):clone()
+		end
+		if ting >= 165 and ting < 170 then
+			model = backpack:findFirstChild("MilitaryPackBlack"):clone()
+		end
+		if ting >= 170 and ting < 190 then
+			model = backpack:findFirstChild("GPS"):clone()
+		end
+		if ting >= 190 and ting < 195 then
+			if math.random(1,2) == 1 then
+				model = backpack:findFirstChild("CamoUrbanTop"):clone()
+			else
+				model = backpack:findFirstChild("CamoUrbanBottom"):clone()
+			end
+		end
+		if ting >= 195 and ting < 200 then
+			if math.random(1,2) == 1 then
+				model = backpack:findFirstChild("CamoJungleTop"):clone()
+			else
+				model = backpack:findFirstChild("CamoJungleBottom"):clone()
+			end
+		end
+		if ting >= 200 and ting < 205 then
+			if math.random(1,2) == 1 then
+				model = backpack:findFirstChild("CamoDesertTop"):clone()
+			else
+				model = backpack:findFirstChild("CamoDesertBottom"):clone()
+			end
+		end
+		if ting >= 205 and ting < 210 then
+			if math.random(1,2) == 1 then
+				model = backpack:findFirstChild("CamoWoodlandsTop"):clone()
+			else
+				model = backpack:findFirstChild("CamoWoodlandsBottom"):clone()
+			end
+		end
+		if ting >= 210 and ting < 215 then
+			if math.random(1,2) == 1 then
+				model = backpack:findFirstChild("CamoSnowTop"):clone()
+			else
+				model = backpack:findFirstChild("CamoSnowBottom"):clone()
+			end
+		end
+		if ting >= 215 and ting < 220 then
+			if math.random(1,2) == 1 then
+				model = backpack:findFirstChild("CamoSpecialTop"):clone()
+			else
+				model = backpack:findFirstChild("CamoSpecialBottom"):clone()
+			end
+		end
+		if ting >= 220 and ting < 240 then
+			model = backpack:findFirstChild("STANAGAmmo100"):clone()
+		end
+		if ting >= 240 and ting < 260 then
+			model = backpack:findFirstChild("AK47Ammo75"):clone()
+		end
+		if ting >= 260 and ting < 265 then
+			model = backpack:findFirstChild("Suppressor9"):clone()
+		end
+		if ting >= 265 and ting < 270 then
+			model = backpack:findFirstChild("Suppressor45"):clone()
+		end
+		if ting >= 270 and ting < 275 then
+			model = backpack:findFirstChild("Suppressor556"):clone()
+		end
+		if ting >= 275 and ting < 280 then
+			model = backpack:findFirstChild("Suppressor762"):clone()
+		end
+		if ting >= 280 and ting < 285 then
+			model = backpack:findFirstChild("CCO"):clone()
+		end
+		if ting >= 285 and ting < 290 then
+			model = backpack:findFirstChild("Holo"):clone()
+		end
+		if ting >= 290 and ting < 295 then
+			model = backpack:findFirstChild("Reflex"):clone()
+		end
+		if ting >= 295 and ting < 300 then
+			model = backpack:findFirstChild("Kobra"):clone()
+		end
+		if ting >= 300 and ting < 305 then
+			model = backpack:findFirstChild("Grip"):clone()
+		end
+		if ting >= 305 and ting < 310 then
+			model = backpack:findFirstChild("Laser"):clone()
+		end
+		if ting >= 310 and ting < 315 then
+			model = backpack:findFirstChild("FlashlightAttachment"):clone()
+		end
+		if ting >= 315 and ting < 320 then
+			model = backpack:findFirstChild("Suppressor545"):clone()
+		end
+		if ting >= 320 and ting < 325 then
+			model = backpack:findFirstChild("ACOG"):clone()
+		end
+		if ting >= 325 and ting < 330 then
+			model = backpack:findFirstChild("SUSAT"):clone()
+		end
+		if ting >= 330 and ting < 333 then
+			model = backpack:findFirstChild("AKM"):clone()
+		end
+		if ting >= 333 and ting < 336 then
+			model = backpack:findFirstChild("AK-104"):clone()
+		end
+		if ting >= 336 and ting < 339 then
+			model = backpack:findFirstChild("AK-12"):clone()
+		end
+		if ting >= 339 and ting < 342 then
+			model = backpack:findFirstChild("OTs-14"):clone()
+		end
+		if ting >= 342 and ting < 347 then
+			model = backpack:findFirstChild("RPK"):clone()
+		end
+		if ting >= 347 and ting < 352 then
+			model = backpack:findFirstChild("AK-74"):clone()
+		end
+		if ting >= 352 and ting < 357 then
+			model = backpack:findFirstChild("AKS-74U"):clone()
+		end
+		if ting >= 357 and ting < 362 then
+			model = backpack:findFirstChild("AN-94"):clone()
+		end
+		if ting >= 362 and ting < 367 then
+			model = backpack:findFirstChild("FAL"):clone()
+		end
+		if ting >= 367 and ting < 372 then
+			model = backpack:findFirstChild("G3"):clone()
+		end
+		if ting >= 372 and ting < 377 then
+			model = backpack:findFirstChild("Mk 17"):clone()
+		end
+		if ting >= 377 and ting < 382 then
+			model = backpack:findFirstChild("HK21"):clone()
+		end
+		if ting >= 382 and ting < 387 then
+			model = backpack:findFirstChild("HK417"):clone()
+		end
+		if ting >= 387 and ting < 395 then
+			model = backpack:findFirstChild("Uzi"):clone()
+		end
+		local ammo = nil
+		if model then
+			table.insert(lootstuffs,model)
+			if model.Name == "AK-47" or model.Name == "AKM" or model.Name == "AK-12" or model.Name == "AK-104" or model.Name == "RPK" or model.Name == "OTs-14" then
+				ammo = backpack.AK47Ammo30
+			elseif model.Name == "M9" or model.Name == "G18" or model.Name == "M93R" then
+				ammo = backpack.M9Ammo17
+			elseif model.Name == "TEC-9" or model.Name == "CBJ-MS" or model.Name == "Uzi" then
+				ammo = backpack.TEC9Ammo20
+			elseif model.Name == "M4A1" or model.Name == "G36K" or model.Name == "SCAR-L" then
+				ammo = backpack.STANAGAmmo30
+			elseif model.Name == "USP45" or model.Name == "G37" or model.Name == "Mk 23" then
+				ammo = backpack.USP45Ammo
+			elseif model.Name == "M14" or model.Name == "HK21" or model.Name == "HK417" or model.Name == "G3" or model.Name == "FAL" or model.Name == "Mk 17" then
+				ammo = backpack.M14Ammo20
+			elseif model.Name == "AK-74" or model.Name == "AN-94" or model.Name == "AKS-74U" then
+				ammo = backpack.AKAmmo30
+			elseif model.Name == "M870" or model.Name == "M1014" then
+				ammo = backpack.M870Ammo
+			elseif model.Name == "Mk 48" then
+				ammo = backpack.Mk48Ammo
+			elseif model.Name == "MP5" then
+				ammo = backpack.MP5Ammo
+			elseif model.Name == "M249" then
+				ammo = backpack.M249Ammo100
+			elseif model.Name == "PP-19" then
+				ammo = backpack.PP19Ammo64
+			end
+			local angle = math.random(1,628)/100
+			model:findFirstChild("Head",true).Parent:TranslateBy((helicrash.Baseplate.Position + Vector3.new(40*math.cos(angle), 2, 40*math.sin(angle))) - model:findFirstChild("Head", true).Position)
+			model.Parent = Game.Workspace
+			model:findFirstChild("Despawn").Value = 18000
+		end
+		if ammo then
+			local bing = math.random(1,3)
+			local ding = 0
+			repeat 
+				ding = ding + 1
+				ammonew = ammo:clone()
+				local head = ammonew:findFirstChild("Head", true)
+				head.Parent:TranslateBy((model:findFirstChild("Head",true).Position - head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+				ammonew:findFirstChild("Despawn").Value = 18000
+				table.insert(lootstuffs,ammonew)
+				ammonew.Parent = Game.Workspace
+			until bing == ding
+		end
+	until ming == fling
+end
+
+function CheckAway()
+	local away = true
+	local players = Game.Players:GetChildren()
+	for t = 1, #players do
+		if players[t].Character:findFirstChild("Torso") and Game.Workspace:findFirstChild("HeliCrash") then
+			if (players[t].Character.Torso.Position - Game.Workspace:FindFirstChild("HeliCrash").Baseplate.Position).magnitude <= 300 then
+				away = false
+			end
+		end
+	end
+	if away then
+		if Game.Workspace:findFirstChild("HeliCrash") then
+			Game.Workspace:findFirstChild("HeliCrash"):Destroy()
+			for um = 1, #lootstuffs do
+				lootstuffs[um]:Destroy()
+			end
+			lootstuffs = {}
+		end
+	else
+		wait(10)
+		CheckAway()
+	end
+end
+
+while true do
+	wait(math.random(120,600))
+	SpawnHeliCrash()
+	wait(math.random(1200,1800))
+	CheckAway()
+end
