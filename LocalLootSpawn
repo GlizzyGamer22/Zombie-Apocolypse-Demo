@@ -1,0 +1,1188 @@
+wait(5)
+math.randomseed(tick())
+
+backpack = Game.Lighting.LootDrops
+model = nil
+spawndistance = 600
+lootdistance = 1195
+resetdistance = 1200
+playerlist = nil
+zing = 0
+
+if not _G.med then
+	_G.med = Game.Workspace.LootSpawners.MedicalSpawners:GetChildren()
+	_G.mwep = Game.Workspace.LootSpawners.MilitaryWSpawners:GetChildren()
+	_G.buildmat = Game.Workspace.LootSpawners.BuildingMaterialSpawners:GetChildren()
+	_G.mgen = Game.Workspace.LootSpawners.MilitaryGSpawners:GetChildren()
+	_G.vparts = Game.Workspace.LootSpawners.VehiclePartSpawners:GetChildren()
+	
+	_G.wepgroup1 = Game.Workspace.LootSpawners.WeaponSpawners.Weapon1Spawners:GetChildren()
+	_G.wepgroup2 = Game.Workspace.LootSpawners.WeaponSpawners.Weapon2Spawners:GetChildren()
+	
+	_G.gengroup1 = Game.Workspace.LootSpawners.GenericSpawners.Generic1Spawners:GetChildren()
+	_G.gengroup2 = Game.Workspace.LootSpawners.GenericSpawners.Generic2Spawners:GetChildren()
+	_G.gengroup3 = Game.Workspace.LootSpawners.GenericSpawners.Generic3Spawners:GetChildren()
+
+	for mo = 1, #_G.med do
+		_G.med[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.mwep do
+		_G.mwep[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.buildmat do
+		_G.buildmat[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.mgen do
+		_G.mgen[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.vparts do
+		_G.vparts[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.wepgroup1 do
+		_G.wepgroup1[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.wepgroup2 do
+		_G.wepgroup2[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.gengroup1 do
+		_G.gengroup1[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.gengroup2 do
+		_G.gengroup2[mo]:Destroy()
+	end
+	
+	for mo = 1, #_G.gengroup3 do
+		_G.gengroup3[mo]:Destroy()
+	end
+end
+
+--[[
+	  _____
+	 / |_| \_____
+	|  _  __  _  |
+	| |_||  ||_| |  Keth's House
+	|____|__|____|
+	
+--]]
+
+function Anchor(object)
+	local despawnthingy = Instance.new("IntValue")
+	despawnthingy.Value = 20
+	despawnthingy.Name = "DespawnThingy"
+	despawnthingy.Parent = object
+end
+
+function DespawnLoot()
+	local pile = Game.Workspace.Loot:GetChildren()
+	for r = 1, #pile do
+		local lootdistcheck = 0
+		local headrest = pile[r]:findFirstChild("Head", true)
+		if headrest then
+			local pl = Game.Players:GetChildren()
+			for t = 1, #pl do
+				if pl[t].Character then
+					if pl[t].Character:findFirstChild("Torso") then
+						if (headrest.Position - pl[t].Character.Torso.Position).magnitude < lootdistance then
+							lootdistcheck = 1
+						end
+					end
+				end
+			end
+			if lootdistcheck == 0 then
+				pile[r]:Destroy()
+			end 
+		end
+	end
+end 
+
+function GenericLootCheck(gengroup)
+	for i = 1, #gengroup do
+		local distancecheck = 0
+		for m = 1, #playerlist do 
+			if playerlist[m].Character then
+				if playerlist[m].Character:findFirstChild("Torso") then
+					if (playerlist[m].Character.Torso.Position - gengroup[i].Position).magnitude < spawndistance and gengroup[i]:findFirstChild("Check") == nil then
+						repeat
+						ting = math.random(1,1600)
+						model = nil
+						if ting >= 10 and ting < 14 then
+							model = backpack.Beans:clone()
+						elseif ting >= 15 and ting < 19 then
+							model = backpack.Tuna:clone()
+						elseif ting >= 20 and ting < 24 then
+							model = backpack.Pasta:clone()
+						elseif ting >= 25 and ting < 29 then
+							model = backpack.Spam:clone()
+						elseif ting >= 30 and ting < 34 then
+							model = backpack.Vegetables:clone()
+						elseif ting >= 35 and ting < 39 then
+							model = backpack.ChickenSoup:clone()
+						elseif ting >= 40 and ting < 44 then
+							model = backpack.TomatoSoup:clone()
+						elseif ting >= 45 and ting < 49 then
+							model = backpack.BeefStew:clone()
+						elseif ting >= 50 and ting < 54 then
+							model = backpack.CheezIts:clone()
+						elseif ting >= 55 and ting < 59 then
+							model = backpack.Pringles:clone()
+						elseif ting >= 60 and ting < 64 then
+							model = backpack.ChipsAhoy:clone()
+						elseif ting >= 65 and ting < 69 then
+							model = backpack.ChocolateBar:clone()
+						elseif ting >= 70 and ting < 74 then
+							model = backpack.BeefJerky:clone()
+						elseif ting >= 75 and ting < 77 then
+							model = backpack.Twinkies:clone()
+						elseif ting >= 210 and ting < 218 then
+							model = backpack.SodaCoke:clone()
+						elseif ting >= 220 and ting < 228 then
+							model = backpack.SodaPepsi:clone()
+						elseif ting >= 230 and ting < 238 then
+							model = backpack.SodaDew:clone()
+						elseif ting >= 240 and ting < 248 then
+							model = backpack.SodaCrush:clone()
+						elseif ting >= 250 and ting < 258 then
+							model = backpack.SodaSprite:clone()
+						elseif ting >= 260 and ting < 268 then
+							model = backpack.SodaRoot:clone()
+						elseif ting >= 270 and ting < 278 then
+							model = backpack.SodaMoxie:clone()
+						elseif ting >= 280 and ting < 288 then
+							model = backpack.Lemonade:clone()
+						elseif ting >= 290 and ting < 298 then
+							model = backpack.WaterBottle:clone()
+						elseif ting >= 330 and ting < 340 then
+							local tiert = math.random(1,4)
+							if tiert == 1 then
+								model = backpack.HikingPackBrown:clone()
+							elseif tiert == 2 then
+								model = backpack.HikingPackOrange:clone()
+							elseif tiert == 3 then
+								model = backpack.HikingPackBlue:clone()
+							else
+								model = backpack.HikingPackWhite:clone()
+							end
+						elseif ting >= 342 and ting < 346 then
+							local tiert = math.random(1,4)
+							if tiert == 1 then
+								model = backpack.SurvivalPackBrown:clone()
+							elseif tiert == 2 then
+								model = backpack.SurvivalPackGreen:clone()
+							elseif tiert == 3 then
+								model = backpack.SurvivalPackGrey:clone()
+							else
+								model = backpack.SurvivalPackTan:clone()
+							end
+						elseif ting >= 410 and ting < 430 then
+							model = backpack.M1911Ammo:clone()
+						elseif ting >= 430 and ting < 470 then
+							model = backpack.MakarovAmmo:clone()
+						elseif ting >= 470 and ting < 495 then
+							model = backpack.NagantAmmo:clone()
+						elseif ting >= 500 and ting < 530 then
+							model = backpack.ShotgunAmmo:clone()
+						elseif ting >= 530 and ting < 550 then
+							model = backpack.GarandAmmo:clone()
+						elseif ting >= 550 and ting < 564 then
+							local tiert = math.random(1,4)
+							if tiert == 1 then
+								model = backpack.FannyPackPurple:clone()
+							elseif tiert == 2 then
+								model = backpack.FannyPackBlue:clone()
+							elseif tiert == 3 then
+								model = backpack.FannyPackWhite:clone()
+							else
+								model = backpack.FannyPackTan:clone()
+							end
+						elseif ting >= 570 and ting < 577 then
+							model = backpack.Watch:clone()
+						elseif ting >= 590 and ting < 594 then
+							model = backpack.Compass:clone()
+						elseif ting >= 600 and ting < 604 then
+							model = backpack.Map:clone()
+						elseif ting >= 610 and ting < 612 then
+							model = backpack.Entrencher:clone()
+						elseif ting >= 620 and ting < 635 then
+							model = backpack.Firewood:clone()
+						elseif ting >= 640 and ting < 645 then
+							model = backpack.Matches:clone()
+						elseif ting >= 650 and ting < 670 then
+							model = backpack.MaverickAmmo:clone()
+						elseif ting >= 670 and ting < 690 then
+							model = backpack.RevolverAmmo:clone()
+						elseif ting >= 690 and ting < 700 then
+							model = backpack.Painkillers:clone()
+						elseif ting >= 700 and ting < 703 then
+							model = backpack.Binoculars:clone()
+						elseif ting >= 710 and ting < 730 then
+							model = backpack.CZ75Ammo:clone()
+						elseif ting >= 730 and ting < 750 then
+							model = backpack.EnfieldAmmo:clone()
+						elseif ting >= 750 and ting < 766 then
+							model = backpack.SKSAmmo:clone()
+						elseif ting >= 770 and ting < 783 then
+							model = backpack.PPSHAmmo:clone()
+						elseif ting >= 790 and ting < 804 then
+							model = backpack.FedorovAmmo:clone()
+						elseif ting >= 810 and ting < 814 then
+							model = backpack.CivilianClothingTop:clone()
+							local siert = math.random(1,6)
+							if siert == 1 then
+								model.ObjectID.Shirt.Value = "116153326"
+							elseif siert == 2 then
+								model.ObjectID.Shirt.Value = "116153334"
+							elseif siert == 3 then
+								model.ObjectID.Shirt.Value = "116153340"
+							elseif siert == 4 then
+								model.ObjectID.Shirt.Value = "116153343"
+							elseif siert == 5 then
+								model.ObjectID.Shirt.Value = "116153346"
+							else
+								model.ObjectID.Shirt.Value = "116153357"
+							end
+						elseif ting >= 814 and ting < 818 then
+							model = backpack.CivilianClothingBottom:clone()
+							local piert = math.random(1,4)
+							if piert == 1 then
+								model.ObjectID.Pants.Value = "116153410"
+							elseif piert == 2 then
+								model.ObjectID.Pants.Value = "116153413"
+							elseif piert == 3 then
+								model.ObjectID.Pants.Value = "116153417"
+							else
+								model.ObjectID.Pants.Value = "116153419"
+							end
+						elseif ting >= 818 and ting < 821 then
+							model = backpack.RamboClothingBottom:clone()
+							local piert = math.random(1,4)
+							if piert == 1 then
+								model.ObjectID.Pants.Value = "116153663"
+							elseif piert == 2 then
+								model.ObjectID.Pants.Value = "116153667"
+							elseif piert == 3 then
+								model.ObjectID.Pants.Value = "116153674"
+							else
+								model.ObjectID.Pants.Value = "116153677"
+							end
+						elseif ting >= 821 and ting < 824 then
+							model = backpack.RamboClothingTop:clone()
+							local siert = math.random(1,6)
+							if siert == 1 then
+								model.ObjectID.Shirt.Value = "116153541"
+							elseif siert == 2 then
+								model.ObjectID.Shirt.Value = "116153549"
+							elseif siert == 3 then
+								model.ObjectID.Shirt.Value = "116153557"
+							elseif siert == 4 then
+								model.ObjectID.Shirt.Value = "116153566"
+							elseif siert == 5 then
+								model.ObjectID.Shirt.Value = "116153569"
+							else
+								model.ObjectID.Shirt.Value = "116153574"
+							end
+						elseif ting >= 824 and ting < 827 then
+							model = backpack.PaddedClothingBottom:clone()
+							local piert = math.random(1,4)
+							if piert == 1 then
+								model.ObjectID.Pants.Value = "116153877"
+							elseif piert == 2 then
+								model.ObjectID.Pants.Value = "116153881"
+							elseif piert == 3 then
+								model.ObjectID.Pants.Value = "116153883"
+							else
+								model.ObjectID.Pants.Value = "116153891"
+							end
+						elseif ting >= 827 and ting < 830 then
+							model = backpack.PaddedClothingTop:clone()
+							local siert = math.random(1,6)
+							if siert == 1 then
+								model.ObjectID.Shirt.Value = "116153751"
+							elseif siert == 2 then
+								model.ObjectID.Shirt.Value = "116153757"
+							elseif siert == 3 then
+								model.ObjectID.Shirt.Value = "116153764"
+							elseif siert == 4 then
+								model.ObjectID.Shirt.Value = "116153772"
+							elseif siert == 5 then
+								model.ObjectID.Shirt.Value = "116153775"
+							else
+								model.ObjectID.Shirt.Value = "116153779"
+							end
+						elseif ting >= 830 and ting < 848 then
+							model = backpack.Model459Ammo14:clone()
+						elseif ting >= 850 and ting < 861 then
+							model = backpack.M3Ammo30:clone()
+						elseif ting >= 870 and ting < 873 then
+							model = backpack.FlashlightSurvival:clone()
+						elseif ting >= 874 and ting < 880 then
+							model = backpack.RoadFlare:clone()
+						elseif ting >= 880 and ting < 883 then
+							model = backpack.RedChemlight:clone()
+						elseif ting >= 883 and ting < 886 then
+							model = backpack.GreenChemlight:clone()
+						elseif ting >= 886 and ting < 889 then
+							model = backpack.BlueChemlight:clone()
+						elseif ting >= 889 and ting < 896 then
+							local tiert = math.random(1,9)
+							if tiert == 1 then
+								model = backpack.Ranger:clone()
+							elseif tiert == 2 then
+								model = backpack.Fedora:clone()
+							elseif tiert == 3 then
+								model = backpack.BrimmedBrown:clone()
+							elseif tiert == 4 then
+								model = backpack.BrimmedBlack:clone()
+							elseif tiert == 5 then
+								model = backpack.Beanie:clone()
+							elseif tiert == 6 then
+								model = backpack.Biker:clone()
+							elseif tiert == 7 then
+								model = backpack.Bowler:clone()
+							elseif tiert == 8 then
+								model = backpack.Cowboy:clone()
+							elseif tiert == 9 then
+								if math.random(1,2) == 1 then
+									model = backpack.CowlBlack:clone()
+								else
+									model = backpack.CowlGreen:clone()
+								end
+							end
+						elseif ting >= 896 and ting < 903 then
+							local tiert = math.random(1,97)
+							if tiert >= 1 and tiert < 11 then
+								model = backpack.HornRimmed:clone()
+							elseif tiert >= 11 and tiert < 21 then
+								model = backpack.MaskMime:clone()
+							elseif tiert >= 21 and tiert < 31 then
+								model = backpack.MaskHockey:clone()
+							elseif tiert >= 31 and tiert < 40 then
+								model = backpack.ShadesGrey:clone()
+							elseif tiert >= 40 and tiert < 49 then
+								model = backpack.Eyepatch:clone()
+							elseif tiert >= 49 and tiert < 56 then
+								model = backpack.ShadesBlack:clone()
+							elseif tiert >= 56 and tiert < 63 then
+								model = backpack.MaskPhantom:clone()
+							elseif tiert >= 63 and tiert < 70 then
+								model = backpack.BandanaRenegade:clone()
+							elseif tiert >= 70 and tiert < 77 then
+								model = backpack.BandanaSkull:clone()
+							elseif tiert >= 77 and tiert < 84 then
+								model = backpack.BandanaBlack:clone()
+							elseif tiert >= 84 and tiert < 91 then
+								model = backpack.BandanaRed:clone()
+							elseif tiert >= 91 and tiert < 98 then
+								model = backpack.MaskMercenary:clone()
+							end
+						end
+						if model then
+							local g = model:GetChildren()
+							for d = 1, #g do
+								if g[d].className == "Model" then
+									g[d]:TranslateBy((gengroup[i].Position - g[d].Head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+									local m = g[d]:GetChildren()
+									for x = 1, #m do
+										if m[x].className == "Part" then
+											m[x].Velocity = Vector3.new(0,0,0)
+										end
+									end
+								end
+							end 
+							model.Parent = Game.Workspace.Loot
+						end
+						zing = zing + 1
+						until zing == 4
+						zing = 0
+						placer = Instance.new("IntValue")
+						placer.Name = "Check"
+						placer.Value = 20
+						placer.Parent = gengroup[i]
+					end 
+					if (playerlist[m].Character.Torso.Position - gengroup[i].Position).magnitude < resetdistance then 
+						distancecheck = 1
+					end
+				end 
+			end 
+		end
+		if distancecheck == 0 and gengroup[i]:findFirstChild("Check") then
+			gengroup[i]:findFirstChild("Check"):Destroy()
+		end 
+	end
+end
+
+function MedicalLootCheck()
+	for i = 1, #_G.med do
+		local distancecheck = 0
+		for m = 1, #playerlist do 
+			if playerlist[m].Character then
+				if playerlist[m].Character:findFirstChild("Torso") then
+					if (playerlist[m].Character.Torso.Position - _G.med[i].Position).magnitude < spawndistance and _G.med[i]:findFirstChild("Check") == nil then
+						repeat
+						ting = math.random(1,100)
+						model = nil
+						if ting >= 1 and ting < 3 then
+							model = backpack.Beans:clone()
+						elseif ting >= 3 and ting < 5 then
+							model = backpack.Tuna:clone()
+						elseif ting >= 5 and ting < 7 then
+							model = backpack.Pasta:clone()
+						elseif ting >= 7 and ting < 9 then
+							model = backpack.Spam:clone()
+						elseif ting >= 9 and ting < 11 then
+							model = backpack.TomatoSoup:clone()
+						elseif ting >= 11 and ting < 13 then
+							model = backpack.Vegetables:clone()
+						elseif ting >= 13 and ting < 15 then
+							model = backpack.BeefStew:clone()
+						elseif ting >= 15 and ting < 17 then
+							model = backpack.ChickenSoup:clone()
+						elseif ting >= 17 and ting < 20 then
+							model = backpack.SodaCoke:clone()
+						elseif ting >= 20 and ting < 23 then
+							model = backpack.SodaPepsi:clone()
+						elseif ting >= 23 and ting < 26 then
+							model = backpack.SodaDew:clone()
+						elseif ting >= 26 and ting < 29 then
+							model = backpack.SodaCrush:clone()
+						elseif ting >= 29 and ting < 31 then
+							model = backpack.SodaMoxie:clone()
+						elseif ting >= 31 and ting < 33 then
+							model = backpack.SodaSprite:clone()
+						elseif ting >= 33 and ting < 34 then
+							model = backpack.SodaPepper:clone()
+						elseif ting >= 34 and ting < 52 then
+							model = backpack.Painkillers:clone()
+						elseif ting >= 52 and ting < 100 then
+							model = backpack.BloodBag:clone()
+						end 
+						if model then
+							local g = model:GetChildren()
+							for d = 1, #g do
+								if g[d].className == "Model" then
+									g[d]:TranslateBy((_G.med[i].Position - g[d].Head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+									local m = g[d]:GetChildren()
+									for x = 1, #m do
+										if m[x].className == "Part" then
+											m[x].Velocity = Vector3.new(0,0,0)
+										end
+									end
+								end
+							end 
+							model.Parent = Game.Workspace.Loot
+						end
+						zing = zing + 1
+						until zing == 4
+						zing = 0
+						placer = Instance.new("IntValue")
+						placer.Name = "Check"
+						placer.Value = 20
+						placer.Parent = _G.med[i]
+					end 
+					if (playerlist[m].Character.Torso.Position - _G.med[i].Position).magnitude < resetdistance then 
+						distancecheck = 1
+					end
+				end 
+			end 
+		end
+		if distancecheck == 0 and _G.med[i]:findFirstChild("Check") then
+			_G.med[i]:findFirstChild("Check"):Destroy()
+		end 
+	end
+end
+
+function MilitaryGLootCheck()
+	for i = 1, #_G.mgen do
+		local distancecheck = 0
+		for m = 1, #playerlist do 
+			if playerlist[m].Character then
+				if playerlist[m].Character:findFirstChild("Torso") then
+					if (playerlist[m].Character.Torso.Position - _G.mgen[i].Position).magnitude < spawndistance and _G.mgen[i]:findFirstChild("Check") == nil then
+						repeat
+						ting = math.random(1,1900)
+						model = nil
+						if ting >= 10 and ting < 20 then
+							model = backpack.Beans:clone()
+						elseif ting >= 20 and ting < 30 then
+							model = backpack.Tuna:clone()
+						elseif ting >= 30 and ting < 40 then
+							model = backpack.Pasta:clone()
+						elseif ting >= 40 and ting < 50 then
+							model = backpack.Spam:clone()
+						elseif ting >= 50 and ting < 60 then
+							model = backpack.BeefStew:clone()
+						elseif ting >= 60 and ting < 70 then
+							model = backpack.TomatoSoup:clone()
+						elseif ting >= 70 and ting < 80 then
+							model = backpack.ChickenSoup:clone()
+						elseif ting >= 80 and ting < 90 then
+							model = backpack.Vegetables:clone()
+						elseif ting >= 90 and ting < 100 then
+							model = backpack.SodaCoke:clone()
+						elseif ting >= 100 and ting < 110 then
+							model = backpack.SodaPepsi:clone()
+						elseif ting >= 110 and ting < 120 then
+							model = backpack.SodaDew:clone()
+						elseif ting >= 120 and ting < 130 then
+							model = backpack.SodaCrush:clone()
+						elseif ting >= 130 and ting < 140 then
+							model = backpack.SodaSprite:clone()
+						elseif ting >= 140 and ting < 150 then
+							model = backpack.SodaMoxie:clone()
+						elseif ting >= 150 and ting < 160 then
+							model = backpack.SodaRoot:clone()
+						elseif ting >= 170 and ting < 245 then
+							model = backpack.MRE:clone()
+						elseif ting >= 245 and ting < 265 then
+							model = backpack.AK47Ammo30:clone()
+						elseif ting >= 265 and ting < 268 then
+							model = backpack.AK47Ammo40:clone()
+						elseif ting >= 268 and ting < 270 then
+							model = backpack.AK47Ammo75:clone()
+						elseif ting >= 270 and ting < 305 then
+							model = backpack.TEC9Ammo20:clone()
+						elseif ting >= 305 and ting < 310 then
+							model = backpack.TEC9Ammo32:clone()
+						elseif ting >= 310 and ting < 342 then
+							model = backpack.M9Ammo17:clone()
+						elseif ting >= 342 and ting < 350 then
+							model = backpack.M9Ammo32:clone()
+						elseif ting >= 350 and ting < 372 then
+							model = backpack.STANAGAmmo30:clone()
+						elseif ting >= 372 and ting < 378 then
+							model = backpack.STANAGAmmo50:clone()
+						elseif ting >= 378 and ting < 380 then
+							model = backpack.STANAGAmmo100:clone()
+						elseif ting >= 380 and ting < 387 then
+							model = backpack.Mk48Ammo:clone()
+						elseif ting >= 387 and ting < 390 then
+							local tiert = math.random(1,4)
+							if tiert == 1 then
+								model = backpack.MilitaryPackGrime:clone()
+							elseif tiert == 2 then
+								model = backpack.MilitaryPackGreen:clone()
+							elseif tiert == 3 then
+								model = backpack.MilitaryPackGrey:clone()
+							else
+								model = backpack.MilitaryPackBlack:clone()
+							end
+						elseif ting >= 390 and ting < 396 then
+							model = backpack.GPS:clone()
+						elseif ting >= 400 and ting < 435 then
+							model = backpack.MP5Ammo:clone()
+						elseif ting >= 435 and ting < 470 then
+							model = backpack.M870Ammo:clone()
+						elseif ting >= 470 and ting < 495 then
+							model = backpack.USP45Ammo:clone()
+						elseif ting >= 500 and ting < 506 then
+							model = backpack.Binoculars:clone()
+						elseif ting >= 540 and ting < 553 then
+							model = backpack.M14Ammo20:clone()
+						elseif ting >= 553 and ting < 558 then
+							model = backpack.M14Ammo30:clone()
+						elseif ting >= 558 and ting < 560 then
+							model = backpack.M14Ammo50:clone()
+						elseif ting >= 560 and ting < 563 then
+							local tiert = math.random(1,6)
+							if tiert == 1 then
+								model = backpack.CamoDesertTop:clone()
+							elseif tiert == 2 then
+								model = backpack.CamoUrbanTop:clone()
+							elseif tiert == 3 then
+								model = backpack.CamoJungleTop:clone()
+							elseif tiert == 4 then
+								model = backpack.CamoWoodlandsTop:clone()
+							elseif tiert == 5 then
+								model = backpack.CamoSnowTop:clone()
+							else
+								model = backpack.CamoSpecialTop:clone()
+							end
+						elseif ting >= 563 and ting < 570 then
+							model = backpack.M249Ammo100:clone()
+						elseif ting >= 570 and ting < 580 then
+							model = backpack.PP19Ammo64:clone()
+						elseif ting == 581 then
+							model = backpack.CCO:clone()
+						elseif ting == 582 then
+							model = backpack.Holo:clone()
+						elseif ting == 583 then
+							model = backpack.Reflex:clone()
+						elseif ting == 584 then
+							model = backpack.Kobra:clone()
+						elseif ting == 585 then
+							model = backpack.Grip:clone()
+						elseif ting == 586 then
+							model = backpack.Laser:clone()
+						elseif ting >= 587 and ting < 589 then
+							model = backpack.Suppressor9:clone()
+						elseif ting == 589 then
+							model = backpack.Suppressor45:clone()
+						elseif ting == 590 then
+							model = backpack.Suppressor556:clone()
+						elseif ting == 591 then
+							model = backpack.Suppressor762:clone()
+						elseif ting == 592 then
+							model = backpack.Suppressor545:clone()
+						elseif ting == 593 then
+							model = backpack.FlashlightAttachment:clone()
+						elseif ting == 594 then
+							model = backpack.ACOG:clone()
+						elseif ting == 595 then
+							model = backpack.SUSAT:clone()
+						elseif ting >= 600 and ting < 606 then
+							model = backpack.FlashlightMilitary:clone()
+						elseif ting >= 610 and ting < 615 then
+							model = backpack.OmniLight:clone()
+						elseif ting >= 620 and ting < 626 then
+							model = backpack.RedChemlight:clone()
+						elseif ting >= 630 and ting < 636 then
+							model = backpack.GreenChemlight:clone()
+						elseif ting >= 640 and ting < 646 then
+							model = backpack.BlueChemlight:clone()
+						elseif ting >= 650 and ting < 656 then
+							model = backpack.RoadFlare:clone()
+						elseif ting >= 660 and ting < 683 then
+							model = backpack.AKAmmo30:clone()
+						elseif ting >= 683 and ting < 690 then
+							model = backpack.AKAmmo45:clone()
+						elseif ting >= 690 and ting < 692 then
+							model = backpack.AKAmmo75:clone()
+						elseif ting >= 692 and ting < 695 then
+							model = backpack.Detonator:clone()
+						elseif ting >= 695 and ting < 700 then
+							model = backpack.C4:clone()
+						elseif ting >= 700 and ting < 705 then
+							model = backpack.TM46:clone()
+						elseif ting >= 705 and ting < 711 then
+							model = backpack.VS50:clone()
+						elseif ting >= 712 and ting < 720 then
+							model = backpack.Radio:clone()
+						elseif ting >= 720 and ting < 723 then
+							local tiert = math.random(1,6)
+							if tiert == 1 then
+								model = backpack.CamoDesertBottom:clone()
+							elseif tiert == 2 then
+								model = backpack.CamoUrbanBottom:clone()
+							elseif tiert == 3 then
+								model = backpack.CamoJungleBottom:clone()
+							elseif tiert == 4 then
+								model = backpack.CamoWoodlandsBottom:clone()
+							elseif tiert == 5 then
+								model = backpack.CamoSnowBottom:clone()
+							else
+								model = backpack.CamoSpecialBottom:clone()
+							end
+						elseif ting >= 723 and ting < 733 then
+							local tiert = math.random(1,73)
+							if tiert >= 1 and tiert < 11 then
+								model = backpack.BallisticDesert:clone()
+							elseif tiert >= 11 and tiert < 21 then
+								model = backpack.BallisticJungle:clone()
+							elseif tiert >= 21 and tiert < 31 then
+								model = backpack.BallisticUrban:clone()
+							elseif tiert >= 31 and tiert < 40 then
+								model = backpack.PilotGreen:clone()
+							elseif tiert >= 40 and tiert < 49 then
+								model = backpack.PilotBlack:clone()
+							elseif tiert >= 49 and tiert < 58 then
+								model = backpack.RedBeret:clone()
+							elseif tiert >= 58 and tiert < 66 then
+								model = backpack.MaskSpecOps:clone()
+							elseif tiert >= 66 and tiert < 74 then
+								model = backpack.Firefighter:clone()
+							end
+						elseif ting >= 733 and ting < 745 then
+							model = backpack.CrateLow:clone()
+						elseif ting >= 745 and ting < 754 then
+							model = backpack.CrateMed:clone()
+						elseif ting >= 754 and ting < 759 then
+							model = backpack.CrateHigh:clone()
+						end
+						if model then
+							local g = model:GetChildren()
+							for d = 1, #g do
+								if g[d].className == "Model" then
+									g[d]:TranslateBy((_G.mgen[i].Position - g[d].Head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+									local m = g[d]:GetChildren()
+									for x = 1, #m do
+										if m[x].className == "Part" then
+											m[x].Velocity = Vector3.new(0,0,0)
+										end
+									end
+								end
+							end 
+							model.Parent = Game.Workspace.Loot
+						end
+						zing = zing + 1
+						until zing == 4
+						zing = 0
+						placer = Instance.new("IntValue")
+						placer.Name = "Check"
+						placer.Value = 20
+						placer.Parent = _G.mgen[i]
+					end 
+					if (playerlist[m].Character.Torso.Position - _G.mgen[i].Position).magnitude < resetdistance then 
+						distancecheck = 1
+					end
+				end 
+			end 
+		end
+		if distancecheck == 0 and _G.mgen[i]:findFirstChild("Check") then
+			_G.mgen[i]:findFirstChild("Check"):Destroy()
+		end 
+	end
+end
+
+function BuildingMaterialLootCheck()
+	for i = 1, #_G.buildmat do
+		local distancecheck = 0
+		for m = 1, #playerlist do 
+			if playerlist[m].Character then
+				if playerlist[m].Character:findFirstChild("Torso") then
+					if (playerlist[m].Character.Torso.Position - _G.buildmat[i].Position).magnitude < spawndistance and _G.buildmat[i]:findFirstChild("Check") == nil then
+						ting = math.random(1,100)
+						model = nil
+						if ting >= 1 and ting < 5 then
+							model = backpack.Material1:clone()
+						elseif ting >= 5 and ting < 10 then
+							model = backpack.Material2:clone()
+						elseif ting >= 10 and ting < 15 then
+							model = backpack.Material3:clone()
+						elseif ting >= 15 and ting < 20 then
+							model = backpack.Material4:clone()
+						elseif ting >= 20 and ting < 25 then
+							model = backpack.Material5:clone()
+						elseif ting >= 25 and ting < 30 then
+							model = backpack.Material6:clone()
+						elseif ting >= 30 and ting < 33 then
+							model = backpack.Floodlight:clone()
+						elseif ting >= 33 and ting < 36 then
+							model = backpack.SmallCrate:clone()
+						elseif ting >= 36 and ting < 38 then
+							model = backpack.LargeCrate:clone()
+						end
+						if model then
+							local g = model:GetChildren()
+							for d = 1, #g do
+								if g[d].className == "Model" then
+									g[d]:TranslateBy((_G.buildmat[i].Position - g[d].Head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+									local m = g[d]:GetChildren()
+									for x = 1, #m do
+										if m[x].className == "Part" then
+											m[x].Velocity = Vector3.new(0,0,0)
+										end
+									end
+								end
+							end 
+							model.Parent = Game.Workspace.Loot
+						end
+						placer = Instance.new("IntValue")
+						placer.Name = "Check"
+						placer.Value = 20
+						placer.Parent = _G.buildmat[i]
+					end 
+					if (playerlist[m].Character.Torso.Position - _G.buildmat[i].Position).magnitude < resetdistance then 
+						distancecheck = 1
+					end
+				end 
+			end 
+		end
+		if distancecheck == 0 and _G.buildmat[i]:findFirstChild("Check") then
+			_G.buildmat[i]:findFirstChild("Check"):Destroy()
+		end 
+	end
+end
+
+function VehiclePartLootCheck()
+	for i = 1, #_G.vparts do
+		local distancecheck = 0
+		for m = 1, #playerlist do 
+			if playerlist[m].Character then
+				if playerlist[m].Character:findFirstChild("Torso") then
+					if (playerlist[m].Character.Torso.Position - _G.vparts[i].Position).magnitude < spawndistance and _G.vparts[i]:findFirstChild("Check") == nil then
+						ting = math.random(1,1000)
+						model = nil
+						if ting >= 1 and ting < 250 then
+							model = backpack.CarWheel:clone()
+						elseif ting >= 250 and ting < 320 then
+							model = backpack.FuelTank:clone()
+						elseif ting >= 320 and ting < 375 then
+							model = backpack.EngineParts:clone()
+						elseif ting >= 375 and ting < 390 then
+							model = backpack.ArmorPlates:clone()
+						elseif ting >= 400 and ting < 535 then
+							model = backpack.ScrapMetal:clone()
+						elseif ting >= 600 and ting < 660 then
+							model = backpack.WindscreenGlass:clone()
+						elseif ting >= 660 and ting <= 690 then
+							--model = backpack.VehicleJack:clone()
+						elseif ting >= 700 and ting < 780 then
+							model = backpack.JerryCan:clone()
+						elseif ting >= 780 and ting < 860 then
+							model = backpack.ReinforcedWheel:clone()
+						elseif ting >= 860 and ting < 878 then
+							model = backpack.BallisticGlass:clone()
+						end 
+						if model then
+							local g = model:GetChildren()
+							for d = 1, #g do
+								if g[d].className == "Model" then
+									g[d]:TranslateBy((_G.vparts[i].Position - g[d].Head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+									local m = g[d]:GetChildren()
+									for x = 1, #m do
+										if m[x].className == "Part" then
+											m[x].Velocity = Vector3.new(0,0,0)
+										end
+									end
+								end
+							end 
+							model.Parent = Game.Workspace.Loot
+						end
+						placer = Instance.new("IntValue")
+						placer.Name = "Check"
+						placer.Value = 20
+						placer.Parent = _G.vparts[i]
+					end 
+					if (playerlist[m].Character.Torso.Position - _G.vparts[i].Position).magnitude < resetdistance then 
+						distancecheck = 1
+					end
+				end 
+			end 
+		end
+		if distancecheck == 0 and _G.vparts[i]:findFirstChild("Check") then
+			_G.vparts[i]:findFirstChild("Check"):Destroy()
+		end 
+	end
+end
+
+function WeaponLootCheck(wepgroup)
+	for i = 1, #wepgroup do
+		local distancecheck = 0
+		for m = 1, #playerlist do 
+			if playerlist[m].Character then
+				if playerlist[m].Character:findFirstChild("Torso") then
+					if (playerlist[m].Character.Torso.Position - wepgroup[i].Position).magnitude < spawndistance and wepgroup[i]:findFirstChild("Check") == nil then
+						ting = math.random(1,2800)
+						model = nil
+						if ting >= 10 and ting < 60 then
+							model = backpack:findFirstChild("Shotgun"):clone()
+						elseif ting >= 70 and ting < 130 then
+							model = backpack:findFirstChild("M1911"):clone()
+						elseif ting >= 140 and ting < 180 then
+							model = backpack:findFirstChild("Maverick"):clone()
+						elseif ting >= 230 and ting < 275 then
+							model = backpack:findFirstChild("Mosin-Nagant"):clone()
+						elseif ting >= 280 and ting < 302 then
+							model = backpack:findFirstChild("M1 Garand"):clone()
+						elseif ting >= 310 and ting < 380 then
+							model = backpack:findFirstChild("Revolver"):clone()
+						elseif ting >= 380 and ting < 440 then
+							model = backpack:findFirstChild("Hatchet"):clone()
+						elseif ting >= 460 and ting < 530 then
+							model = backpack:findFirstChild("Crowbar"):clone()
+						elseif ting >= 560 and ting < 610 then
+							model = backpack:findFirstChild("CZ75"):clone()
+						elseif ting >= 630 and ting < 660 then
+							model = backpack:findFirstChild("Enfield"):clone()
+						elseif ting >= 660 and ting < 740 then
+							model = backpack:findFirstChild("Makarov"):clone()
+						elseif ting >= 740 and ting < 751 then
+							model = backpack:findFirstChild("SKS"):clone()
+						elseif ting >= 758 and ting < 770 then
+							model = backpack:findFirstChild("Fedorov"):clone()
+						elseif ting >= 770 and ting < 779 then
+							model = backpack:findFirstChild("PPSH"):clone()
+						elseif ting >= 780 and ting < 800 then
+							model = backpack:findFirstChild("Auto-5"):clone()
+						elseif ting >= 800 and ting < 822 then
+							model = backpack:findFirstChild("M3"):clone()
+						elseif ting >= 830 and ting < 870 then
+							model = backpack:findFirstChild("Model 459"):clone()
+						end 
+						if model then
+							local g = model:GetChildren()
+							for d = 1, #g do
+								if g[d].className == "Model" then
+									g[d]:TranslateBy((wepgroup[i].Position - g[d].Head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+									local ammo = nil
+									if model.Name == "Shotgun" then
+										ammo = backpack.ShotgunAmmo
+									elseif model.Name == "M1911" then
+										ammo = backpack.M1911Ammo
+									elseif model.Name == "Mosin-Nagant" then
+										ammo = backpack.NagantAmmo
+									elseif model.Name == "M1 Garand" then
+										ammo = backpack.GarandAmmo
+									elseif model.Name == "Maverick" then
+										ammo = backpack.MaverickAmmo
+									elseif model.Name == "Revolver" then
+										ammo = backpack.RevolverAmmo
+									elseif model.Name == "CZ75" then
+										ammo = backpack.CZ75Ammo
+									elseif model.Name == "Enfield" then
+										ammo = backpack.EnfieldAmmo
+									elseif model.Name == "Fedorov" then
+										ammo = backpack.FedorovAmmo
+									elseif model.Name == "SKS" then
+										ammo = backpack.SKSAmmo
+									elseif model.Name == "PPSH" then
+										ammo = backpack.PPSHAmmo
+									elseif model.Name == "Makarov" then
+										ammo = backpack.MakarovAmmo
+									elseif model.Name == "M3" then
+										ammo = backpack.M3Ammo30
+									elseif model.Name == "Model 459" then
+										ammo = backpack.Model459Ammo14
+									elseif model.Name == "Auto-5" then
+										ammo = backpack.MaverickAmmo
+									end 
+									
+									if ammo then
+										local bing = math.random(1,3)
+										local ding = 0
+										repeat 
+											ding = ding + 1
+											ammonew = ammo:clone()
+											local head = ammonew:findFirstChild("Head", true)
+											head.Parent:TranslateBy((wepgroup[i].Position - head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+											ammonew.Parent = Game.Workspace.Loot
+										until bing == ding
+									end
+									
+									local m = g[d]:GetChildren()
+									for x = 1, #m do
+										if m[x].className == "Part" then
+											m[x].Velocity = Vector3.new(0,0,0)
+										end
+									end
+								end
+							end 
+							model.Parent = Game.Workspace.Loot
+						end
+						placer = Instance.new("IntValue")
+						placer.Name = "Check"
+						placer.Value = 20
+						placer.Parent = wepgroup[i]
+					end 
+					if (playerlist[m].Character.Torso.Position - wepgroup[i].Position).magnitude < resetdistance then 
+						distancecheck = 1
+					end
+				end 
+			end 
+		end
+		if distancecheck == 0 and wepgroup[i]:findFirstChild("Check") then
+			wepgroup[i]:findFirstChild("Check"):Destroy()
+		end 
+	end
+end
+
+function MilitaryWLootCheck()
+	for i = 1, #_G.mwep do
+		local distancecheck = 0
+		for m = 1, #playerlist do 
+			if playerlist[m].Character then
+				if playerlist[m].Character:findFirstChild("Torso") then
+					if (playerlist[m].Character.Torso.Position - _G.mwep[i].Position).magnitude < spawndistance and _G.mwep[i]:findFirstChild("Check") == nil then
+						ting = math.random(1,2700)
+						model = nil
+						
+						if ting >= 60 and ting < 84 then -- AK-Type
+							local tiert = math.random(1,100)
+							if tiert >= 1 and tiert < 40 then
+								model = backpack:findFirstChild("AKS-74U"):clone()
+							elseif tiert >= 40 and tiert < 80 then
+								model = backpack:findFirstChild("AK-74"):clone()
+							elseif tiert >= 80 and tiert < 100 then
+								model = backpack:findFirstChild("AN-94"):clone()
+							end
+						
+						elseif ting >= 90 and ting < 108 then -- AK47-Type
+							local tiert = math.random(1,100)
+							if tiert >= 1 and tiert < 25 then
+								model = backpack:findFirstChild("RPK"):clone()
+							elseif tiert >= 25 and tiert < 50 then
+								model = backpack:findFirstChild("AK-47"):clone()
+							elseif tiert >= 50 and tiert < 65 then
+								model = backpack:findFirstChild("AKM"):clone()
+							elseif tiert >= 65 and tiert < 80 then
+								model = backpack:findFirstChild("OTs-14"):clone()
+							elseif tiert >= 80 and tiert < 90 then
+								model = backpack:findFirstChild("AK-12"):clone()
+							elseif tiert >= 90 and tiert < 100 then
+								model = backpack:findFirstChild("AK-104"):clone()
+							end
+						
+						elseif ting >= 110 and ting < 123 then -- M14-Type
+							local tiert = math.random(1,100)
+							if tiert >= 1 and tiert < 30 then
+								model = backpack:findFirstChild("HK21"):clone()
+							elseif tiert >= 30 and tiert < 50 then
+								model = backpack:findFirstChild("G3"):clone()
+							elseif tiert >= 50 and tiert < 65 then
+								model = backpack:findFirstChild("HK417"):clone()
+							elseif tiert >= 65 and tiert < 80 then
+								model = backpack:findFirstChild("M14"):clone()
+							elseif tiert >= 80 and tiert < 90 then
+								model = backpack:findFirstChild("FAL"):clone()
+							elseif tiert >= 90 and tiert < 100 then
+								model = backpack:findFirstChild("Mk 17"):clone()
+							end
+						
+						elseif ting >= 200 and ting < 221 then -- M4-Type
+							local tiert = math.random(1,100)
+							if tiert >= 1 and tiert < 40 then
+								model = backpack:findFirstChild("M4A1"):clone()
+							elseif tiert >= 40 and tiert < 75 then
+								model = backpack:findFirstChild("SCAR-L"):clone()
+							elseif tiert >= 75 and tiert < 100 then
+								model = backpack:findFirstChild("G36K"):clone()
+							end
+						
+						elseif ting >= 230 and ting < 320 then -- TEC9-Type
+							local tiert = math.random(1,100)
+							if tiert >= 1 and tiert < 50 then
+								model = backpack:findFirstChild("TEC-9"):clone()
+							elseif tiert >= 50 and tiert < 80 then
+								model = backpack:findFirstChild("Uzi"):clone()
+							elseif tiert >= 80 and tiert < 100 then
+								model = backpack:findFirstChild("CBJ-MS"):clone()
+							end
+						
+						elseif ting >= 320 and ting < 450 then -- Handgun-Type
+							local tiert = math.random(1,100)
+							if tiert >= 1 and tiert < 25 then
+								model = backpack:findFirstChild("M93R"):clone()
+							elseif tiert >= 25 and tiert < 50 then
+								model = backpack:findFirstChild("G18"):clone()
+							elseif tiert >= 50 and tiert < 65 then
+								model = backpack:findFirstChild("M9"):clone()
+							elseif tiert >= 65 and tiert < 80 then
+								model = backpack:findFirstChild("USP45"):clone()
+							elseif tiert >= 80 and tiert < 90 then
+								model = backpack:findFirstChild("G37"):clone()
+							elseif tiert >= 90 and tiert < 100 then
+								model = backpack:findFirstChild("Mk 23"):clone()
+							end
+
+						elseif ting >= 530 and ting < 533 then
+							model = backpack:findFirstChild("Mk 48"):clone()
+						elseif ting >= 580 and ting < 600 then
+							model = backpack:findFirstChild("MP5"):clone()
+						elseif ting >= 620 and ting < 650 then
+							model = backpack:findFirstChild("M870"):clone()
+						elseif ting >= 710 and ting < 714 then
+							model = backpack:findFirstChild("M249"):clone()
+						elseif ting >= 750 and ting < 775 then
+							model = backpack:findFirstChild("PP-19"):clone()
+						elseif ting >= 780 and ting < 800 then
+							model = backpack:findFirstChild("M1014"):clone()
+						elseif ting >= 800 and ting < 840 then
+							model = backpack:findFirstChild("Knife"):clone()
+						elseif ting >= 840 and ting < 848 then
+							model = backpack:findFirstChild("Sabre"):clone()
+						end 
+						if model then
+							local g = model:GetChildren()
+							for d = 1, #g do
+								if g[d].className == "Model" then
+									g[d]:TranslateBy((_G.mwep[i].Position - g[d].Head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+									local ammo = nil
+									if model.Name == "AK-47" or model.Name == "AKM" or model.Name == "AK-12" or model.Name == "AK-104" or model.Name == "RPK" or model.Name == "OTs-14" then
+										ammo = backpack.AK47Ammo30
+									elseif model.Name == "M9" or model.Name == "G18" or model.Name == "M93R" then
+										ammo = backpack.M9Ammo17
+									elseif model.Name == "TEC-9" or model.Name == "CBJ-MS" or model.Name == "Uzi" then
+										ammo = backpack.TEC9Ammo20
+									elseif model.Name == "M4A1" or model.Name == "G36K" or model.Name == "SCAR-L" then
+										ammo = backpack.STANAGAmmo30
+									elseif model.Name == "USP45" or model.Name == "G37" or model.Name == "Mk 23" then
+										ammo = backpack.USP45Ammo
+									elseif model.Name == "M14" or model.Name == "HK21" or model.Name == "HK417" or model.Name == "G3" or model.Name == "FAL" or model.Name == "Mk 17" then
+										ammo = backpack.M14Ammo20
+									elseif model.Name == "AK-74" or model.Name == "AN-94" or model.Name == "AKS-74U" then
+										ammo = backpack.AKAmmo30
+									elseif model.Name == "M870" or model.Name == "M1014" then
+										ammo = backpack.M870Ammo
+									elseif model.Name == "Mk 48" then
+										ammo = backpack.Mk48Ammo
+									elseif model.Name == "MP5" then
+										ammo = backpack.MP5Ammo
+									elseif model.Name == "M249" then
+										ammo = backpack.M249Ammo100
+									elseif model.Name == "PP-19" then
+										ammo = backpack.PP19Ammo64
+									end
+									
+									if ammo then
+										local bing = math.random(1,3)
+										local ding = 0
+										repeat 
+											ding = ding + 1
+											ammonew = ammo:clone()
+											local head = ammonew:findFirstChild("Head", true)
+											head.Parent:TranslateBy((_G.mwep[i].Position - head.Position) + Vector3.new(math.random(-3,3), math.random(1,3), math.random(-3,3)))
+											ammonew.Parent = Game.Workspace.Loot
+										until bing == ding
+									end
+									
+									local m = g[d]:GetChildren()
+									for x = 1, #m do
+										if m[x].className == "Part" then
+											m[x].Velocity = Vector3.new(0,0,0)
+										end
+									end
+								end
+							end 
+							model.Parent = Game.Workspace.Loot
+						end
+						placer = Instance.new("IntValue")
+						placer.Name = "Check"
+						placer.Value = 20
+						placer.Parent = _G.mwep[i]
+					end 
+					if (playerlist[m].Character.Torso.Position - _G.mwep[i].Position).magnitude < resetdistance then 
+						distancecheck = 1
+					end
+				end 
+			end 
+		end
+		if distancecheck == 0 and _G.mwep[i]:findFirstChild("Check") then
+			_G.mwep[i]:findFirstChild("Check"):Destroy()
+		end 
+	end
+end
+
+Game.Workspace.Loot.ChildAdded:connect(Anchor)
+
+while true do
+	wait(1)
+	playerlist = _G.PlayerList
+	GenericLootCheck(_G.gengroup1)
+	wait(1)
+	MilitaryWLootCheck()
+	wait(1)
+	GenericLootCheck(_G.gengroup2)
+	wait(1)
+	BuildingMaterialLootCheck()
+	wait(1)
+	WeaponLootCheck(_G.wepgroup1)
+	wait(1)
+	MedicalLootCheck()
+	wait(1)
+	GenericLootCheck(_G.gengroup3)
+	wait(1)
+	MilitaryGLootCheck()
+	wait(1)
+	WeaponLootCheck(_G.wepgroup2)
+	wait(1)
+	VehiclePartLootCheck()
+	wait(1)
+	DespawnLoot()
+end 
