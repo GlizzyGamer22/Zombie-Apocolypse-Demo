@@ -130,4 +130,245 @@ function MedicalLootCheck()
         end
 
         -- If the item is not within spawn distance and has been checked before, remove the "Check" tag
-       
+       if distancecheck == 0 and _G.medicalgroup[i]:findFirstChild("Check") then
+    _G.medicalgroup[i]:findFirstChild("Check"):Destroy()
+end
+end
+end
+
+-- Function to handle loot generation for building materials
+function BuildingMaterialLootCheck()
+for i = 1, #_G.buildingmaterials do
+    local distancecheck = 0
+
+    -- Check player proximity to the building material item
+    for m = 1, #playerlist do
+        if playerlist[m].Character and playerlist[m].Character:findFirstChild("Torso") then
+            local playerTorsoPosition = playerlist[m].Character.Torso.Position
+            local itemPosition = _G.buildingmaterials[i].Position
+
+            -- Check if the item is within the spawn distance and hasn't been checked before
+            if (playerTorsoPosition - itemPosition).magnitude < spawndistance and _G.buildingmaterials[i]:findFirstChild("Check") == nil then
+                -- Random chance for loot item selection
+                ting = math.random(1, 100)
+
+                -- Initialize model to be spawned
+                model = nil
+
+                -- Define building material loot item categories and their chances
+                if ting >= 1 and ting < 30 then
+                    model = backpack.WoodPlank:clone()
+                elseif ting >= 30 and ting < 60 then
+                    model = backpack.MetalSheet:clone()
+                    -- ... (additional categories can be added)
+                end
+
+                -- Spawn the selected model and position it in the game world
+                if model then
+                    local g = model:GetChildren()
+                    for d = 1, #g do
+                        if g[d].className == "Model" then
+                            -- Randomize the position of each part within the model
+                            g[d]:TranslateBy((_G.buildingmaterials[i].Position - g[d].Head.Position) +
+                                Vector3.new(math.random(-3, 3), math.random(1, 3), math.random(-3, 3)))
+
+                            -- Set velocity to zero for each part
+                            local m = g[d]:GetChildren()
+                            for x = 1, #m do
+                                if m[x].className == "Part" then
+                                    m[x].Velocity = Vector3.new(0, 0, 0)
+                                end
+                            end
+                        end
+                    end
+
+                    -- Parent the model to the Loot workspace
+                    model.Parent = Game.Workspace.Loot
+                end
+
+                -- Increment a counter for this item
+                zing = zing + 1
+            end
+
+            -- Check if player is within the reset distance
+            if (playerTorsoPosition - itemPosition).magnitude < resetdistance then
+                distancecheck = 1
+            end
+        end
+    end
+
+    -- If the item is not within spawn distance and has been checked before, remove the "Check" tag
+    if distancecheck == 0 and _G.buildingmaterials[i]:findFirstChild("Check") then
+        _G.buildingmaterials[i]:findFirstChild("Check"):Destroy()
+    end
+end
+end
+
+-- Function to handle loot generation for vehicle parts
+function VehiclePartLootCheck()
+for i = 1, #_G.vparts do
+    local distancecheck = 0
+
+    -- Check player proximity to the vehicle part
+    for m = 1, #playerlist do
+        if playerlist[m].Character and playerlist[m].Character:findFirstChild("Torso") then
+            local playerTorsoPosition = playerlist[m].Character.Torso.Position
+            local itemPosition = _G.vparts[i].Position
+
+            -- Check if the item is within the spawn distance and hasn't been checked before
+            if (playerTorsoPosition - itemPosition).magnitude < spawndistance and _G.vparts[i]:findFirstChild("Check") == nil then
+                -- Random chance for loot item selection
+                ting = math.random(1, 1000)
+
+                -- Initialize model to be spawned
+                model = nil
+
+                -- Define vehicle part loot item categories and their chances
+                if ting >= 1 and ting < 250 then
+                    model = backpack.CarWheel:clone()
+                elseif ting >= 250 and ting < 320 then
+                    model = backpack.FuelTank:clone()
+                    -- ... (additional categories can be added)
+                end
+
+                -- Spawn the selected model and position it in the game world
+                if model then
+                    local g = model:GetChildren()
+                    for d = 1, #g do
+                        if g[d].className == "Model" then
+                            -- Randomize the position of each part within the model
+                            g[d]:TranslateBy((_G.vparts[i].Position - g[d].Head.Position) +
+                                Vector3.new(math.random(-3, 3), math.random(1, 3), math.random(-3, 3)))
+
+                            -- Set velocity to zero for each part
+                            local m = g[d]:GetChildren()
+                            for x = 1, #m do
+                                if m[x].className == "Part" then
+                                    m[x].Velocity = Vector3.new(0, 0, 0)
+                                end
+                            end
+                        end
+                    end
+
+                    -- Parent the model to the Loot workspace
+                    model.Parent = Game.Workspace.Loot
+                end
+
+                -- Increment a counter for this item
+                zing = zing + 1
+
+                -- Create a tag to mark that this item has been checked
+                placer = Instance.new("IntValue")
+                placer.Name = "Check"
+                placer.Value = 20
+                placer.Parent = _G.vparts[i]
+            end
+
+            -- Check if player is within the reset distance
+            if (playerTorsoPosition - itemPosition).magnitude < resetdistance then
+                distancecheck = 1
+            end
+        end
+    end
+
+    -- If the item is not within spawn distance and has been checked before, remove the "Check" tag
+    if distancecheck == 0 and _G.vparts[i]:findFirstChild("Check") then
+        _G.vparts[i]:findFirstChild("Check"):Destroy()
+    end
+end
+end
+
+-- Function to handle loot generation for weapons
+function WeaponLootCheck(wepgroup)
+for i = 1, #wepgroup do
+    local distancecheck = 0
+
+    -- Check player proximity to the weapon
+    for m = 1, #playerlist do
+        if playerlist[m].Character and playerlist[m].Character:findFirstChild("Torso") then
+            local playerTorsoPosition = playerlist[m].Character.Torso.Position
+            local itemPosition = wepgroup[i].Position
+
+            -- Check if the item is within the spawn distance and hasn't been checked before
+            if (playerTorsoPosition - itemPosition).magnitude < spawndistance and wepgroup[i]:findFirstChild("Check") == nil then
+                -- Random chance for loot item selection
+                ting = math.random(1, 2800)
+
+                -- Initialize model to be spawned
+                model = nil
+
+                -- Define weapon loot item categories and their chances
+                if ting >= 1 and ting < 300 then
+                    model = backpack.Pistol:clone()
+                elseif ting >= 300 and ting < 500 then
+                    model = backpack.AssaultRifle:clone()
+                    -- ... (additional categories can be added)
+                end
+
+                -- Spawn the selected model and position it in the game world
+                if model then
+                    local g = model:GetChildren()
+                    for d = 1, #g do
+                        if g[d].className == "Model" then
+                            -- Randomize the position of each part within the model
+                            g[d]:TranslateBy((wepgroup[i].Position - g[d].Handle.Position) +
+                                Vector3.new(math.random(-3, 3), math.random(1, 3), math.random(-3, 3)))
+
+                            -- Set velocity to zero for each part
+                            local m = g[d]:GetChildren()
+                            for x = 1, #m do
+                                if m[x].className == "Part" then
+                                    m[x].Velocity = Vector3.new(0, 0, 0)
+                                end
+                            end
+                        end
+                    end
+
+                    -- Parent the model to the Loot workspace
+                    model.Parent = Game.Workspace.Loot
+                end
+
+                -- Increment a counter for this item
+                zing = zing + 1
+
+                -- Create a tag to mark that this item has been checked
+                placer = Instance.new("IntValue")
+                placer.Name = "Check"
+                placer.Value = 20
+                placer.Parent = wepgroup[i]
+            end
+
+            -- Check if player is within the reset distance
+            if (playerTorsoPosition - itemPosition).magnitude < resetdistance then
+                distancecheck = 1
+            end
+        end
+    end
+
+    -- If the item is not within spawn distance and has been checked before, remove the "Check" tag
+    if distancecheck == 0 and wepgroup[i]:findFirstChild("Check") then
+        wepgroup[i]:findFirstChild("Check"):Destroy()
+    end
+end
+end
+
+-- Main loop for periodic loot generation checks
+while true do
+    -- Check for generic loot
+    GenericLootCheck(_G.gengroup)
+
+    -- Check for medical loot
+    MedicalLootCheck()
+
+    -- Check for building material loot
+    BuildingMaterialLootCheck()
+
+    -- Check for vehicle part loot
+    VehiclePartLootCheck()
+
+    -- Check for weapon loot
+    WeaponLootCheck(_G.wepgroup)
+
+    -- Wait for the specified interval before the next loot generation check
+    wait(lootcheckinterval)
+end
