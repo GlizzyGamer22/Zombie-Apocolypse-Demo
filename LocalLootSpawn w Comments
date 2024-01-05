@@ -1,0 +1,133 @@
+-- Function to handle loot generation for generic items
+function GenericLootCheck(gengroup)
+    -- Iterate through the list of generic items
+    for i = 1, #gengroup do
+        local distancecheck = 0
+
+        -- Check player proximity to the item
+        for m = 1, #playerlist do
+            if playerlist[m].Character and playerlist[m].Character:findFirstChild("Torso") then
+                local playerTorsoPosition = playerlist[m].Character.Torso.Position
+                local itemPosition = gengroup[i].Position
+
+                -- Check if the item is within the spawn distance and hasn't been checked before
+                if (playerTorsoPosition - itemPosition).magnitude < spawndistance and gengroup[i]:findFirstChild("Check") == nil then
+                    -- Random chance for loot item selection
+                    ting = math.random(1, 100)
+
+                    -- Initialize model to be spawned
+                    model = nil
+
+                    -- Define loot item categories and their chances
+                    if ting >= 1 and ting < 5 then
+                        model = backpack.Item1:clone()
+                    elseif ting >= 5 and ting < 10 then
+                        model = backpack.Item2:clone()
+                        -- ... (additional categories can be added)
+                    end
+
+                    -- Spawn the selected model and position it in the game world
+                    if model then
+                        local g = model:GetChildren()
+                        for d = 1, #g do
+                            if g[d].className == "Model" then
+                                -- Randomize the position of each part within the model
+                                g[d]:TranslateBy((gengroup[i].Position - g[d].Head.Position) +
+                                    Vector3.new(math.random(-3, 3), math.random(1, 3), math.random(-3, 3)))
+
+                                -- Set velocity to zero for each part
+                                local m = g[d]:GetChildren()
+                                for x = 1, #m do
+                                    if m[x].className == "Part" then
+                                        m[x].Velocity = Vector3.new(0, 0, 0)
+                                    end
+                                end
+                            end
+                        end
+
+                        -- Parent the model to the Loot workspace
+                        model.Parent = Game.Workspace.Loot
+                    end
+
+                    -- Increment a counter for this item
+                    zing = zing + 1
+                end
+
+                -- Check if player is within the reset distance
+                if (playerTorsoPosition - itemPosition).magnitude < resetdistance then
+                    distancecheck = 1
+                end
+            end
+        end
+
+        -- If the item is not within spawn distance and has been checked before, remove the "Check" tag
+        if distancecheck == 0 and gengroup[i]:findFirstChild("Check") then
+            gengroup[i]:findFirstChild("Check"):Destroy()
+        end
+    end
+end
+
+-- Function to handle loot generation for medical items
+function MedicalLootCheck()
+    -- Iterate through the list of medical items
+    for i = 1, #_G.medicalgroup do
+        local distancecheck = 0
+
+        -- Check player proximity to the medical item
+        for m = 1, #playerlist do
+            if playerlist[m].Character and playerlist[m].Character:findFirstChild("Torso") then
+                local playerTorsoPosition = playerlist[m].Character.Torso.Position
+                local itemPosition = _G.medicalgroup[i].Position
+
+                -- Check if the item is within the spawn distance and hasn't been checked before
+                if (playerTorsoPosition - itemPosition).magnitude < spawndistance and _G.medicalgroup[i]:findFirstChild("Check") == nil then
+                    -- Random chance for loot item selection
+                    ting = math.random(1, 100)
+
+                    -- Initialize model to be spawned
+                    model = nil
+
+                    -- Define medical loot item categories and their chances
+                    if ting >= 1 and ting < 30 then
+                        model = backpack.HealthPack:clone()
+                    elseif ting >= 30 and ting < 60 then
+                        model = backpack.Bandages:clone()
+                        -- ... (additional categories can be added)
+                    end
+
+                    -- Spawn the selected model and position it in the game world
+                    if model then
+                        local g = model:GetChildren()
+                        for d = 1, #g do
+                            if g[d].className == "Model" then
+                                -- Randomize the position of each part within the model
+                                g[d]:TranslateBy((_G.medicalgroup[i].Position - g[d].Head.Position) +
+                                    Vector3.new(math.random(-3, 3), math.random(1, 3), math.random(-3, 3)))
+
+                                -- Set velocity to zero for each part
+                                local m = g[d]:GetChildren()
+                                for x = 1, #m do
+                                    if m[x].className == "Part" then
+                                        m[x].Velocity = Vector3.new(0, 0, 0)
+                                    end
+                                end
+                            end
+                        end
+
+                        -- Parent the model to the Loot workspace
+                        model.Parent = Game.Workspace.Loot
+                    end
+
+                    -- Increment a counter for this item
+                    zing = zing + 1
+                end
+
+                -- Check if player is within the reset distance
+                if (playerTorsoPosition - itemPosition).magnitude < resetdistance then
+                    distancecheck = 1
+                end
+            end
+        end
+
+        -- If the item is not within spawn distance and has been checked before, remove the "Check" tag
+       
